@@ -1,0 +1,42 @@
+package pl.ppistudio.screenshotprocessor.model
+
+val MAPS = listOf(
+    "Abyss",
+    "Ascent",
+    "Bind",
+    "Breeze",
+    "Fracture",
+    "Haven",
+    "Icebox",
+    "Lotus",
+    "Pearl",
+    "Split",
+    "Sunset",
+)
+
+val AGENTS = listOf(
+//    "Astra",
+//    "Breach",
+    "Brimstone",
+//    "Chamber",
+    "Cypher",
+//    "Deadlock",
+    "Fade",
+    "Gekko",
+//    "Harbor",
+//    "Iso",
+//    "Jett",
+    "KAYO",
+    "Killjoy",
+//    "Neon",
+//    "Omen",
+//    "Phoenix",
+//    "Raze",
+//    "Reyna",
+    "Sage",
+//    "Skye",
+    "Sova",
+    "Viper",
+//    "Vyse",
+//    "Yoru",
+)
