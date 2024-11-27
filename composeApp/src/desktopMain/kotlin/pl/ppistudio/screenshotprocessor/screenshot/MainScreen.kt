@@ -3,6 +3,7 @@ package pl.ppistudio.screenshotprocessor.screenshot
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,6 +23,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toComposeImageBitmap
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.isCtrlPressed
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.nativeKeyCode
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import pl.ppistudio.screenshotprocessor.composables.AbilityDropdownMenu
@@ -31,6 +38,7 @@ import pl.ppistudio.screenshotprocessor.composables.validateText
 import pl.ppistudio.screenshotprocessor.model.AGENTS
 import pl.ppistudio.screenshotprocessor.model.AbilityType
 import pl.ppistudio.screenshotprocessor.model.MAPS
+import androidx.compose.ui.input.key.Key
 
 
 @Composable
@@ -56,6 +64,14 @@ fun MainScreen(
     val errorMessage by viewModel.errorMessage.collectAsStateWithLifecycle()
 
     Row(
+        modifier = Modifier.onKeyEvent {
+            if (it.isCtrlPressed && it.key == Key.V) {
+                viewModel.getImageFromClipboard()
+                true
+            } else {
+                false
+            }
+        }.focusable()
     ){
         Column(
             modifier = Modifier.fillMaxHeight().weight(1f).padding(10.dp),
