@@ -52,9 +52,8 @@ fun MainScreen(
     val selectedAbility by viewModel.selectedAbility.collectAsStateWithLifecycle()
     val selectedAdditionalOption by viewModel.selectedAdditionalOption.collectAsStateWithLifecycle()
 
-    var text by remember { mutableStateOf("") }
-    var errorMessage by remember { mutableStateOf<String?>(null) }
-
+    val enteredText by viewModel.enteredText.collectAsStateWithLifecycle()
+    val errorMessage by viewModel.errorMessage.collectAsStateWithLifecycle()
 
     Row(
     ){
@@ -133,20 +132,23 @@ fun MainScreen(
             }
 
             ValidatedTextField(
-                text = text,
-                onTextChange = { newText ->
-                    text = newText
-                    errorMessage = validateText(newText)
-                },
+                text = enteredText ?: "",
+                onTextChange = viewModel::enterText,
                 errorMessage = errorMessage
             )
 
 
             Button(
-                onClick = {}
+                onClick = viewModel::saveImage
             ) {
                 Text("Save")
             }
+
+            Text(
+                text = viewModel.imageMessage.collectAsStateWithLifecycle().value,
+                color = Color.Green,
+
+            )
         }
     }
 }

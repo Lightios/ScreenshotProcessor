@@ -6,9 +6,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
+import pl.ppistudio.screenshotprocessor.composables.validateText
 import pl.ppistudio.screenshotprocessor.model.Ability
 import pl.ppistudio.screenshotprocessor.model.agentToAbilities
 import pl.ppistudio.screenshotprocessor.model.get
+import pl.ppistudio.screenshotprocessor.path.createFoldersIfNotExist
+import pl.ppistudio.screenshotprocessor.path.createPath
 import java.awt.Graphics2D
 import java.awt.Toolkit
 import java.awt.datatransfer.DataFlavor
@@ -37,6 +40,21 @@ class SPViewModel: ViewModel() {
 
     private val _selectedAdditionalOption = MutableStateFlow<String?>(null)
     val selectedAdditionalOption = _selectedAdditionalOption.asStateFlow()
+
+    private val _enteredText = MutableStateFlow<String>("")
+    val enteredText = _enteredText.asStateFlow()
+
+    private val _errorMessage = MutableStateFlow<String>("")
+    val errorMessage = _errorMessage.asStateFlow()
+
+    private val _imageMessage = MutableStateFlow<String>("")
+    val imageMessage = _imageMessage.asStateFlow()
+
+    fun enterText(text: String) {
+        _enteredText.update { text }
+
+        _errorMessage.update { validateText(text) }
+    }
 
     fun getImageFromClipboard() {
         val clipboard = Toolkit.getDefaultToolkit().systemClipboard
@@ -71,6 +89,38 @@ class SPViewModel: ViewModel() {
     fun selectAdditionalOption(option: String) {
         _selectedAdditionalOption.update { option }
     }
+
+    fun saveImage() {
+        validateText(enteredText.value)
+        _imageMessage.update { "" }
+
+        if (selectedAbility.value == null || selectedMap.value == null || selectedAgent.value == null || enteredText.value == "") {
+            return
+        }
+
+        image.value?.let {
+            _errorMessage.update { "" }
+            val image = resizeBufferedImage(it, 1080, 608)
+            val path = createPath(
+                ability = selectedAbility.value!!,
+                additionalOption = selectedAdditionalOption.value!!,
+                map = selectedMap.value!!,
+                fileName = enteredText.value
+            )
+
+            createFoldersIfNotExist(path)
+            val error = saveImageToFile(image, path)
+
+            if (error == null) {
+                _imageMessage.update { "${_enteredText.value} saved " }
+            } else {
+                _errorMessage.update { error }
+            }
+        } ?: run {
+            _errorMessage.update { "No image to save" }
+        }
+
+    }
 }
 
 fun resizeBufferedImage(inputImage: BufferedImage, newWidth: Int, newHeight: Int): BufferedImage {
@@ -82,7 +132,13 @@ fun resizeBufferedImage(inputImage: BufferedImage, newWidth: Int, newHeight: Int
 }
 
 
-fun saveImageToFile(image: BufferedImage, fileName: String) {
+fun saveImageToFile(image: BufferedImage, fileName: String): String? {
     val outputFile = File(fileName)
+
+    if (outputFile.exists())
+        return "File already exists"
+
     ImageIO.write(image, "png", outputFile)
+    return null
 }
+

@@ -30,10 +30,10 @@ fun ValidatedTextField(
     }
 }
 
-fun validateText(text: String): String? {
+fun validateText(text: String): String {
     return if (text.length < 5) {
         "Text must be at least 5 characters long"
     } else {
-        null
+        ""
     }
 }
