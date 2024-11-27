@@ -2,9 +2,7 @@ package pl.ppistudio.screenshotprocessor.screenshot
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import pl.ppistudio.screenshotprocessor.composables.validateText
 import pl.ppistudio.screenshotprocessor.model.Ability
@@ -12,12 +10,11 @@ import pl.ppistudio.screenshotprocessor.model.agentToAbilities
 import pl.ppistudio.screenshotprocessor.model.get
 import pl.ppistudio.screenshotprocessor.path.createFoldersIfNotExist
 import pl.ppistudio.screenshotprocessor.path.createPath
-import java.awt.Graphics2D
+import pl.ppistudio.screenshotprocessor.path.resizeBufferedImage
+import pl.ppistudio.screenshotprocessor.path.saveImageToFile
 import java.awt.Toolkit
 import java.awt.datatransfer.DataFlavor
 import java.awt.image.BufferedImage
-import java.io.File
-import javax.imageio.ImageIO
 
 class SPViewModel: ViewModel() {
     private val _image = MutableStateFlow<BufferedImage?>(null)
@@ -123,22 +120,4 @@ class SPViewModel: ViewModel() {
     }
 }
 
-fun resizeBufferedImage(inputImage: BufferedImage, newWidth: Int, newHeight: Int): BufferedImage {
-    val resizedImage = BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB)
-    val graphics: Graphics2D = resizedImage.createGraphics()
-    graphics.drawImage(inputImage, 0, 0, newWidth, newHeight, null)
-    graphics.dispose()
-    return resizedImage
-}
-
-
-fun saveImageToFile(image: BufferedImage, fileName: String): String? {
-    val outputFile = File(fileName)
-
-    if (outputFile.exists())
-        return "File already exists"
-
-    ImageIO.write(image, "png", outputFile)
-    return null
-}
 
