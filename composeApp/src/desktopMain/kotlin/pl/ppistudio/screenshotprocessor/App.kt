@@ -6,11 +6,12 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 import pl.ppistudio.screenshotprocessor.screenshot.MainScreen
 import pl.ppistudio.screenshotprocessor.screenshot.SPViewModel
+import pl.ppistudio.screenshotprocessor.theme.DarkTheme
 
 @Composable
 @Preview
 fun App() {
-    MaterialTheme {
+    MaterialTheme{
         val viewModel = SPViewModel()
 
         MainScreen(viewModel)

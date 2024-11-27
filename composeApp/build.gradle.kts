@@ -28,8 +28,6 @@ kotlin {
         }
     }
 }
-
-
 compose.desktop {
     application {
         mainClass = "pl.ppistudio.screenshotprocessor.MainKt"
