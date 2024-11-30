@@ -37,7 +37,7 @@ val AGENTS = listOf(
 //    "Skye",
     "Sova",
     "Viper",
-//    "Vyse",
+    "Vyse",
 //    "Yoru",
 )
 
@@ -59,6 +59,7 @@ val trapwireSpycam = Ability("Trapwire/Spycam", "Setups", AbilityType.SETUP)
 val fragment = Ability("Fragment", "", AbilityType.POSTPLANT)
 val zeropoint = Ability("Zeropoint", "KAYOE", AbilityType.DEFAULT)
 val incendiary = Ability("Incendiary", "", AbilityType.POSTPLANT)
+val shearArcrose = Ability("Shear/Arc Rose", "Setups", AbilityType.SETUP)
 
 fun agentToAbilities(agent: String): List<Ability> {
     return when (agent) {
@@ -72,6 +73,7 @@ fun agentToAbilities(agent: String): List<Ability> {
         "Cypher" -> listOf(cyberCage, trapwireSpycam)
         "KAYO" -> listOf(fragment, zeropoint)
         "Brimstone" -> listOf(incendiary)
+        "Vyse" -> listOf(shearArcrose)
         else -> emptyList()
     }
 }
