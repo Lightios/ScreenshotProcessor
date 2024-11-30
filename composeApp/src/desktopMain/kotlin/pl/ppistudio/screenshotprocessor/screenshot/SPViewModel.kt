@@ -98,11 +98,12 @@ class SPViewModel: ViewModel() {
 
         image.value?.let {
             _errorMessage.update { "" }
-            val image = resizeBufferedImage(it, 1080, 608)
+            val image = resizeBufferedImage(it, 1920, 1080)
             val path = createPath(
                 ability = selectedAbility.value!!,
                 additionalOption = selectedAdditionalOption.value!!,
                 map = selectedMap.value!!,
+                agent = selectedAgent.value!!,
                 fileName = enteredText.value
             )
 
@@ -125,7 +126,7 @@ class SPViewModel: ViewModel() {
             ability = selectedAbility.value!!,
             additionalOption = selectedAdditionalOption.value!!,
             map = selectedMap.value!!,
-
+            agent = selectedAgent.value!!,
         )
         openExplorerAtPath(path)
     }
