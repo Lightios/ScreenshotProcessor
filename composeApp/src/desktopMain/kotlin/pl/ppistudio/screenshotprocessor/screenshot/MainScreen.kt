@@ -148,7 +148,7 @@ fun MainScreen(
             }
 
             ValidatedTextField(
-                text = enteredText ?: "",
+                text = enteredText,
                 onTextChange = viewModel::enterText,
                 errorMessage = errorMessage
             )
@@ -163,8 +163,13 @@ fun MainScreen(
             Text(
                 text = viewModel.imageMessage.collectAsStateWithLifecycle().value,
                 color = Color.Green,
-
             )
+
+            Button(
+                onClick = viewModel::openFolder
+            ) {
+                Text("Open folder")
+            }
         }
     }
 }

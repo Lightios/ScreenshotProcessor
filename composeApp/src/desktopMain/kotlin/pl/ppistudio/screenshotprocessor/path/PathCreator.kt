@@ -6,10 +6,15 @@ fun createPath(
     ability: Ability,
     additionalOption: String,
     map: String,
-    fileName: String
+    fileName: String = ""
 ): String {
     val folder = ability.folder
 
 
-    return "$ABSOLUTE_PATH/$folder/$additionalOption/$map/$fileName.jpg"
+    var path = "$ABSOLUTE_PATH/$folder/$additionalOption/$map"
+
+    if (fileName != "")
+        path += "/$fileName.png"
+
+    return path
 }

@@ -10,6 +10,7 @@ import pl.ppistudio.screenshotprocessor.model.agentToAbilities
 import pl.ppistudio.screenshotprocessor.model.get
 import pl.ppistudio.screenshotprocessor.path.createFoldersIfNotExist
 import pl.ppistudio.screenshotprocessor.path.createPath
+import pl.ppistudio.screenshotprocessor.path.openExplorerAtPath
 import pl.ppistudio.screenshotprocessor.path.resizeBufferedImage
 import pl.ppistudio.screenshotprocessor.path.saveImageToFile
 import java.awt.Toolkit
@@ -117,6 +118,16 @@ class SPViewModel: ViewModel() {
             _errorMessage.update { "No image to save" }
         }
 
+    }
+
+    fun openFolder() {
+        val path = createPath(
+            ability = selectedAbility.value!!,
+            additionalOption = selectedAdditionalOption.value!!,
+            map = selectedMap.value!!,
+
+        )
+        openExplorerAtPath(path)
     }
 }
 
